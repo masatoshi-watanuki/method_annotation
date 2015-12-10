@@ -67,6 +67,7 @@ Example1
     => hogehoge
 
 Example2
+
     class TimeMeasurement < MethodAnnotation::Base
       describe 'measure the processing time of the method'
 
@@ -90,6 +91,7 @@ Example2
     => 5.001199044 sec
 
 Example3
+
     class ArgsToString < MethodAnnotation::Base
       describe 'convert the arguments to string'
 
