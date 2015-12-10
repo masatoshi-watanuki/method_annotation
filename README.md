@@ -22,7 +22,98 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Example1
+
+    require 'method_annotation'
+    
+    class PutsArg < MethodAnnotation::Base
+      describe 'output the arguments of the method'
+
+      before do |*args| 
+        puts '-------args-------'
+        puts args 
+        puts '------------------'
+      end
+    end
+    
+    PutsArg.description
+    => "output the arguments of the method"    
+
+    class Foo
+      include MethodAnnotation::Enable
+
+      puts_arg
+      def hoge(arg1, arg2)
+        puts 'hoge'
+      end
+
+      puts_arg
+      def hogehoge(a: nil, b: nil)
+        puts 'hogehoge'
+      end
+    end   
+
+    Foo.new.hoge('abc', 123)
+    => -------args-------
+    => abc
+    => 123
+    => ------------------
+    => hoge
+    
+    => Foo.new.hogehoge(a: 'xyz')
+    => -------args-------
+    => {:a=>"xyz"}
+    => ------------------
+    => hogehoge
+
+Example2
+    class TimeMeasurement < MethodAnnotation::Base
+      describe 'measure the processing time of the method'
+
+      around do |original, *args| 
+        start = Time.now
+        original.call(*args)
+        puts "#{Time.now - start} sec"
+      end
+    end
+    
+    class Bar
+      include MethodAnnotation::Enable
+      
+      time_measurement
+      def hoge(sleep_sec)
+        sleep sleep_sec
+      end
+    end
+    
+    Bar.new.hoge(5)
+    => 5.001199044 sec
+
+Example3
+    class ArgsToString < MethodAnnotation::Base
+      describe 'convert the arguments to string'
+
+      around do |original, *args| 
+        original.call(*args.map(&:to_s))
+      end
+    end
+    
+    class Baz
+      include MethodAnnotation::Enable
+
+      args_to_string
+      time_measurement
+      def hoge(arg1, arg2)
+        puts "arg1.class: #{arg1.class}"
+        puts "arg2.class: #{arg2.class}"
+        sleep 3
+      end
+    end
+
+    Baz.new.hoge(123, { a: 'A' })
+    arg1.class: String
+    arg2.class: String
+    3.000860474 sec
 
 ## Development
 
