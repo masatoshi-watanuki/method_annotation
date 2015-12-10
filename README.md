@@ -42,6 +42,7 @@ Example1
     class Foo
       include MethodAnnotation::Enable
 
+      # write "#{your annotation class}.name.underscore"
       puts_arg
       def hoge(arg1, arg2)
         puts 'hoge'
