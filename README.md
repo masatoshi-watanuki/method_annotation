@@ -60,7 +60,7 @@ Example1
     => ------------------
     => hoge
     
-    => Foo.new.hogehoge(a: 'xyz')
+    Foo.new.hogehoge(a: 'xyz')
     => -------args-------
     => {:a=>"xyz"}
     => ------------------
