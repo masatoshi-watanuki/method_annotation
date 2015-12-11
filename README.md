@@ -47,6 +47,7 @@ You can define an annotation in this way
 
 About MethodAnnotation
 - .describe .description
+
   You can set forth a description
 
       class MyMethodAnnotation < MethodAnnotation::Base
