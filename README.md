@@ -47,96 +47,93 @@ You can define an annotation in this way
 
 About MethodAnnotation
 - .describe .description
+  You can set forth a description
 
-You can set forth a description
+      class MyMethodAnnotation < MethodAnnotation::Base
+        describe 'sample annotation'
+      end
 
-    class MyMethodAnnotation < MethodAnnotation::Base
-      describe 'sample annotation'
-    end
-
-    MyMethodAnnotation.description
-    => "sample annotation"
+      MyMethodAnnotation.description
+      => "sample annotation"
 
 - .list
+  Your class that defines your class, you get a list of methods
 
-Your class that defines your class, you get a list of methods
-
-    MyMethodAnnotation.list
-    => [[Foo, :bar]]
+      MyMethodAnnotation.list
+      => [[Foo, :bar]]
 
 - .before
 
-You can define the processing to be performed in method execution before the target
+  You can define the processing to be performed in method execution before the target
 
-    class MyMethodAnnotation < MethodAnnotation::Base
-      # args is the argument of the method of target
-      before do |*args|
-        puts 'before'
+      class MyMethodAnnotation < MethodAnnotation::Base
+        # args is the argument of the method of target
+        before do |*args|
+          puts 'before'
+        end
       end
-    end
     
-    class Foo
-      include MethodAnnotation::Enable
+      class Foo
+        include MethodAnnotation::Enable
 
-      my_method_annotation
-      def bar
-        puts 'bar'
+        my_method_annotation
+        def bar
+          puts 'bar'
+        end
       end
-    end
 
-    Foo.new.bar
-    => before
-    => bar
+      Foo.new.bar
+      => before
+      => bar
 
 - .after
+  You can define the processing to be performed in method execution after the target
 
-You can define the processing to be performed in method execution after the target
-
-    class MyMethodAnnotation < MethodAnnotation::Base
-      # args is the argument of the method of target
-      after do |*args|
-        puts 'after'
+      class MyMethodAnnotation < MethodAnnotation::Base
+        # args is the argument of the method of target
+        after do |*args|
+          puts 'after'
+        end
       end
-    end
     
-    class Foo
-      include MethodAnnotation::Enable
+      class Foo
+        include MethodAnnotation::Enable
 
-      my_method_annotation
-      def bar
-        puts 'bar'
+        my_method_annotation
+        def bar
+          puts 'bar'
+        end
       end
-    end
 
-    Foo.new.bar
-    => bar
-    => after
+      Foo.new.bar
+      => bar
+      => after
 
 - .around
-It is possible to define a process that encompasses the method of the target
+  It is possible to define a process that encompasses the method of the target
 
-    class MyMethodAnnotation < MethodAnnotation::Base
-      # original is proc methods of target
-      around do |original, *args| 
-        puts 'before'
-        original.call(*args)
-        puts 'after'
+      class MyMethodAnnotation < MethodAnnotation::Base
+        # original is proc methods of target
+        around do |original, *args| 
+          puts 'before'
+          original.call(*args)
+          puts 'after'
+        end
       end
-    end
     
-    class Foo
-      include MethodAnnotation::Enable
+      class Foo
+        include MethodAnnotation::Enable
 
-      my_method_annotation
-      def bar
-        puts 'bar'
+        my_method_annotation
+        def bar
+          puts 'bar'
+        end
       end
-    end
 
-    Foo.new.bar
-    => before
-    => bar
-    => after
+      Foo.new.bar
+      => before
+      => bar
+      => after
 
 Example1
 
