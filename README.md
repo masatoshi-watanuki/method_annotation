@@ -22,10 +22,120 @@ Or install it yourself as:
 
 ## Usage
 
-Example1
+First, let's create your MethodAnnotation class
 
     require 'method_annotation'
+
+    class MyMethodAnnotation < MethodAnnotation::Base
+    end
+
+Next, let's add your class to the method
+
+    class Foo
+      # To include a MethodAnnotation::Enable to enable MethodAnnotation
+      include MethodAnnotation::Enable
+
+      # write "#{your annotation class}.name.underscore"
+      # ex) MyMethodAnnotation => my_method_annotation
+      my_method_annotation
+      def bar
+      end
+    end
+
+You can define an annotation in this way
+
+
+About MethodAnnotation
+- .describe .description
+You can set forth a description
+
+    class MyMethodAnnotation < MethodAnnotation::Base
+      describe 'sample annotation'
+    end
+
+    MyMethodAnnotation.description
+    => "sample annotation"
+
+- .list
+Your class that defines your class, you get a list of methods
+
+    MyMethodAnnotation.list
+    => [[Foo, :bar]]
+
+- .before
+You can define the processing to be performed in method execution before the target
+
+    class MyMethodAnnotation < MethodAnnotation::Base
+      # args is the argument of the method of target
+      before do |*args|
+        puts 'before'
+      end
+    end
     
+    class Foo
+      include MethodAnnotation::Enable
+
+      my_method_annotation
+      def bar
+        puts 'bar'
+      end
+    end
+
+    Foo.new.bar
+    => before
+    => bar
+
+- .after
+You can define the processing to be performed in method execution after the target
+
+    class MyMethodAnnotation < MethodAnnotation::Base
+      # args is the argument of the method of target
+      after do |*args|
+        puts 'after'
+      end
+    end
+    
+    class Foo
+      include MethodAnnotation::Enable
+
+      my_method_annotation
+      def bar
+        puts 'bar'
+      end
+    end
+
+    Foo.new.bar
+    => bar
+    => after
+
+- .around
+It is possible to define a process that encompasses the method of the target
+
+    class MyMethodAnnotation < MethodAnnotation::Base
+      # original is proc methods of target
+      around do |original, *args| 
+        puts 'before'
+        original.call(*args)
+        puts 'after'
+      end
+    end
+    
+    class Foo
+      include MethodAnnotation::Enable
+
+      my_method_annotation
+      def bar
+        puts 'bar'
+      end
+    end
+
+    Foo.new.bar
+    => before
+    => bar
+    => after
+
+Example1
+
     class PutsArg < MethodAnnotation::Base
       describe 'output the arguments of the method'
 
@@ -114,9 +224,9 @@ Example3
     end
 
     Baz.new.hoge(123, { a: 'A' })
-    arg1.class: String
-    arg2.class: String
-    3.000860474 sec
+    => arg1.class: String
+    => arg2.class: String
+    => 3.000860474 sec
 
 ## Development
 
