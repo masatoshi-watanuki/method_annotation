@@ -1,8 +1,7 @@
 # MethodAnnotation
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/method_annotation`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+MethodAnnotation You can define the Chuwake function method.
+Note translation function can also be added simply tagged to only cross-processing from applications.
 
 ## Installation
 
@@ -12,11 +11,7 @@ Add this line to your application's Gemfile:
 gem 'method_annotation'
 ```
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+install it yourself as:
 
     $ gem install method_annotation
 
