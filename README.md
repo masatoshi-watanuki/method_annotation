@@ -57,6 +57,7 @@ About MethodAnnotation
       => "sample annotation"
 
 - .list
+
   Your class that defines your class, you get a list of methods
 
       MyMethodAnnotation.list
@@ -87,6 +88,7 @@ About MethodAnnotation
       => bar
 
 - .after
+
   You can define the processing to be performed in method execution after the target
 
       class MyMethodAnnotation < MethodAnnotation::Base
@@ -110,6 +112,7 @@ About MethodAnnotation
       => after
 
 - .around
+
   It is possible to define a process that encompasses the method of the target
 
       class MyMethodAnnotation < MethodAnnotation::Base
