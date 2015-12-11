@@ -47,6 +47,7 @@ You can define an annotation in this way
 
 About MethodAnnotation
 - .describe .description
+
 You can set forth a description
 
     class MyMethodAnnotation < MethodAnnotation::Base
@@ -57,12 +58,14 @@ You can set forth a description
     => "sample annotation"
 
 - .list
+
 Your class that defines your class, you get a list of methods
 
     MyMethodAnnotation.list
     => [[Foo, :bar]]
 
 - .before
+
 You can define the processing to be performed in method execution before the target
 
     class MyMethodAnnotation < MethodAnnotation::Base
@@ -86,6 +89,7 @@ You can define the processing to be performed in method execution before the tar
     => bar
 
 - .after
+
 You can define the processing to be performed in method execution after the target
 
     class MyMethodAnnotation < MethodAnnotation::Base
