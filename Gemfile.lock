@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    method_annotation (0.1.0)
+    method_annotation (0.1.1)
       activesupport (~> 4.2.3)
 
 GEM
