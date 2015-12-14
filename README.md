@@ -1,6 +1,6 @@
 # MethodAnnotation
 
-MethodAnnotation You can define the Chuwake function method.
+MethodAnnotation You can define the annotation function method.
 Note translation function can also be added simply tagged to only cross-processing from applications.
 
 ## Installation
@@ -41,15 +41,15 @@ You can define an annotation in this way
 
 
 About MethodAnnotation
-- .describe .description
+- .describe .describe=
 
   You can set forth a description
 
       class MyMethodAnnotation < MethodAnnotation::Base
-        describe 'sample annotation'
+        self.describe = 'sample annotation'
       end
 
-      MyMethodAnnotation.description
+      MyMethodAnnotation.describe
       => "sample annotation"
 
 - .list
@@ -115,8 +115,10 @@ About MethodAnnotation
         # original is proc methods of target
         around do |original, *args| 
           puts 'before'
-          original.call(*args)
+          return_value = original.call(*args)
           puts 'after'
+
+          return_value
         end
       end
     
@@ -137,7 +139,7 @@ About MethodAnnotation
 Example1
 
     class PutsArg < MethodAnnotation::Base
-      describe 'output the arguments of the method'
+      self.describe = 'output the arguments of the method'
 
       before do |*args| 
         puts '-------args-------'
@@ -146,7 +148,7 @@ Example1
       end
     end
     
-    PutsArg.description
+    PutsArg.describe
     => "output the arguments of the method"    
 
     class Foo
@@ -180,12 +182,14 @@ Example1
 Example2
 
     class TimeMeasurement < MethodAnnotation::Base
-      describe 'measure the processing time of the method'
+      self.describe = 'measure the processing time of the method'
 
       around do |original, *args| 
         start = Time.now
-        original.call(*args)
+        return_value = original.call(*args)
         puts "#{Time.now - start} sec"
+
+        return_value
       end
     end
     
@@ -204,7 +208,7 @@ Example2
 Example3
 
     class ArgsToString < MethodAnnotation::Base
-      describe 'convert the arguments to string'
+      self.describe = 'convert the arguments to string'
 
       around do |original, *args| 
         original.call(*args.map(&:to_s))

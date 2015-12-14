@@ -5,15 +5,7 @@ require 'active_support/core_ext'
 module MethodAnnotation
   class Base
     class << self
-      attr_accessor :before_procs, :after_procs, :around_procs, :list
-
-      def describe(desc)
-        @desc = desc
-      end
-
-      def description
-        @desc
-      end
+      attr_accessor :before_procs, :after_procs, :around_procs, :list, :annotation_name, :describe
 
       def before(&block)
         (@before_procs ||= []) << block
@@ -70,11 +62,12 @@ module MethodAnnotation
                 chain = annotation_map[:around_procs].reverse.inject(original) do |block_chain, blk|
                   ->(*params) { instance_exec(block_chain, *params, &blk) }
                 end
-                instance_exec(*args, &chain)
+                return_value = instance_exec(*args, &chain)
               else
-                original.call(*args)
+                return_value = original.call(*args)
               end
               annotation_map[:after_procs].try(:each) { |blk| instance_exec(*args, &blk) }
+              return_value
             end
 
           end
@@ -83,7 +76,11 @@ module MethodAnnotation
       end
     
       def method_missing(method, *args)
-        annotation = MethodAnnotation::Base.subclasses.find { |c| c.name == method.to_s.classify }
+        annotation = MethodAnnotation::Base.subclasses.find do |c|
+          puts method
+          puts c.annotation_name
+          c.annotation_name == method.to_s || (c.name == method.to_s.classify)
+        end
         if annotation
           (@_annotations ||= []) << annotation
         else
