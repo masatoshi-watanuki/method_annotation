@@ -41,6 +41,17 @@ You can define an annotation in this way
 
 
 About MethodAnnotation
+- .annotation_name .annotation_name=
+
+  You can set forth a annotation name
+
+      class MyMethodAnnotation < MethodAnnotation::Base
+        self.annotation_name = 'my_method_annotation'
+      end
+
+      MyMethodAnnotation.annotation_name
+      => "my_method_annotation"
+
 - .describe .describe=
 
   You can set forth a description
@@ -59,35 +70,16 @@ About MethodAnnotation
       MyMethodAnnotation.list
       => [[Foo, :bar]]
 
-- .before
+- .before .after
 
-  You can define the processing to be performed in method execution before the target
+  You can define the processing to be performed in method execution before/after the target
 
       class MyMethodAnnotation < MethodAnnotation::Base
         # args is the argument of the method of target
         before do |*args|
           puts 'before'
         end
-      end
-    
-      class Foo
-        include MethodAnnotation::Enable
 
-        my_method_annotation
-        def bar
-          puts 'bar'
-        end
-      end
-
-      Foo.new.bar
-      => before
-      => bar
-
-- .after
-
-  You can define the processing to be performed in method execution after the target
-
-      class MyMethodAnnotation < MethodAnnotation::Base
         # args is the argument of the method of target
         after do |*args|
           puts 'after'
@@ -104,6 +96,7 @@ About MethodAnnotation
       end
 
       Foo.new.bar
+      => before
       => bar
       => after
 
@@ -136,9 +129,36 @@ About MethodAnnotation
       => bar
       => after
 
+- MethodAnnotation::Annotations::Cache
+
+  It is cached after the second time the execution result of the method is returned from the cache
+
+    require 'method_annotation'
+    require 'annotations'
+
+    class Foo
+      include MethodAnnotation::Enable
+
+      cache
+      def bar
+        puts 'exec'
+        'return value'
+      end
+    end
+
+    foo = Foo.new
+    foo.bar
+    => exec
+    => "return value"
+
+    # The second time is not puts 'exec'
+    foo.bar
+    => "return value"
+
 Example1
 
     class PutsArg < MethodAnnotation::Base
+      self.annotation_name = 'puts_arg'
       self.describe = 'output the arguments of the method'
 
       before do |*args| 
@@ -154,7 +174,7 @@ Example1
     class Foo
       include MethodAnnotation::Enable
 
-      # write "#{your annotation class}.name.underscore"
+      # write annotation_name or "#{your annotation class}.name.underscore"
       puts_arg
       def hoge(arg1, arg2)
         puts 'hoge'

@@ -10,7 +10,10 @@ Gem::Specification.new do |spec|
   spec.email         = ["masatoshi.watanuki@gmail.com"]
 
   spec.summary       = 'method annotation'
-  spec.description   = 'method annotation'
+  spec.description   = <<-EOS
+MethodAnnotation You can define the annotation function method. 
+Note translation function can also be added simply tagged to only cross-processing from applications.
+  EOS
   spec.homepage      = "https://github.com/masatoshi-watanuki/gems/tree/master/method_annotation"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
@@ -19,10 +22,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.required_ruby_version = Gem::Requirement.create('~> 2.2.1')
-
-  #if spec.respond_to?(:metadata)
-  #  spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com' to prevent pushes to rubygems.org, or delete to allow pushes to any server."
-  #end
+  spec.licenses = ['MIT']
 
   spec.add_development_dependency "bundler", "~> 1.9"
   spec.add_development_dependency "rake", "~> 10.0"
