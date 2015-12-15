@@ -133,27 +133,27 @@ About MethodAnnotation
 
   It is cached after the second time the execution result of the method is returned from the cache
 
-    require 'method_annotation'
-    require 'annotations'
+      require 'method_annotation'
+      require 'annotations'
 
-    class Foo
-      include MethodAnnotation::Enable
+      class Foo
+        include MethodAnnotation::Enable
 
-      cache
-      def bar
-        puts 'exec'
-        'return value'
+        cache
+        def bar
+          puts 'exec'
+          'return value'
+        end
       end
-    end
 
-    foo = Foo.new
-    foo.bar
-    => exec
-    => "return value"
+      foo = Foo.new
+      foo.bar
+      => exec
+      => "return value"
 
-    # The second time is not puts 'exec'
-    foo.bar
-    => "return value"
+      # The second time is not puts 'exec'
+      foo.bar
+      => "return value"
 
 Example1
 
