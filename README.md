@@ -129,7 +129,7 @@ About MethodAnnotation
       => bar
       => after
 
-- MethodAnnotation::Annotations::Cache
+- Annotations::Cache
 
   It is cached after the second time the execution result of the method is returned from the cache
 
