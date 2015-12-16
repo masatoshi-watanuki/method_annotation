@@ -30,7 +30,8 @@ Next, let's add your class to the method
       # To include a MethodAnnotation::Enable to enable MethodAnnotation
       include MethodAnnotation::Enable
 
-      # write "#{your annotation class}.name.underscore"
+      # write annotaion_name or 
+      # "#{your annotation class}.name.underscore"
       # ex) MyMethodAnnotation => my_method_annotation
       my_method_annotation
       def bar
@@ -76,12 +77,13 @@ About MethodAnnotation
 
       class MyMethodAnnotation < MethodAnnotation::Base
         # args is the argument of the method of target
-        before do |*args|
+        # param class is MethodAnnotation::Parameter
+        before do |param|
           puts 'before'
         end
 
         # args is the argument of the method of target
-        after do |*args|
+        after do |param|
           puts 'after'
         end
       end
@@ -106,9 +108,9 @@ About MethodAnnotation
 
       class MyMethodAnnotation < MethodAnnotation::Base
         # original is proc methods of target
-        around do |original, *args| 
+        around do |param| 
           puts 'before'
-          return_value = original.call(*args)
+          return_value = param.original.call(param)
           puts 'after'
 
           return_value
@@ -131,7 +133,7 @@ About MethodAnnotation
 
 - MethodAnnotation::Cache
 
-  It is cached after the second time the execution result of the method is returned from the cache
+  It is cached after the second time the execution result of the method is returned from the cache.
 
       require 'method_annotation'
 
@@ -154,26 +156,48 @@ About MethodAnnotation
       foo.bar
       => "return value"
 
+- MethodAnnotation::Trace
+
+  It is will trace the method. This is still a prototype.
+
+      require 'method_annotation'
+
+      class Foo
+        include MethodAnnotation::Enable
+
+        trace
+        def bar
+          Hoge.new.hogehoge
+        end
+      end
+
+      class Hoge
+        def hogehoge
+        end
+      end
+
+      Foo.new.bar
+      => <===== Foo.bar trace =====>
+      => (irb):15: in `hogehoge'
+      => (irb):9: in `bar'
+      => <=========================>
+
 Example1
 
     class PutsArg < MethodAnnotation::Base
       self.annotation_name = 'puts_arg'
       self.describe = 'output the arguments of the method'
 
-      before do |*args| 
+      before do |params| 
         puts '-------args-------'
-        puts args 
+        puts *params.args
         puts '------------------'
       end
     end
     
-    PutsArg.describe
-    => "output the arguments of the method"    
-
     class Foo
       include MethodAnnotation::Enable
 
-      # write annotation_name or "#{your annotation class}.name.underscore"
       puts_arg
       def hoge(arg1, arg2)
         puts 'hoge'
@@ -203,9 +227,9 @@ Example2
     class TimeMeasurement < MethodAnnotation::Base
       self.describe = 'measure the processing time of the method'
 
-      around do |original, *args| 
+      around do |param| 
         start = Time.now
-        return_value = original.call(*args)
+        return_value = param.original.call(param)
         puts "#{Time.now - start} sec"
 
         return_value
@@ -229,8 +253,9 @@ Example3
     class ArgsToString < MethodAnnotation::Base
       self.describe = 'convert the arguments to string'
 
-      around do |original, *args| 
-        original.call(*args.map(&:to_s))
+      around do |param| 
+        remake_param = MethodAnnotation::Parameter.new(args: param.args.map(&:to_s))
+        param.original.call(remake_param)
       end
     end
     

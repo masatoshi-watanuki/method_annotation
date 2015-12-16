@@ -35,17 +35,27 @@ module MethodAnnotation
                 end
               end
 
-              annotation_map[:before_procs].try(:each) { |blk| instance_exec(*args, &blk) }
-              original = ->(*params) { instance_eval { super(*params, &block) } }
+              param = Parameter.new(args: args, method_name: name)
+
+              # do before
+              annotation_map[:before_procs].try(:each) { |blk| instance_exec(param, &blk) }
+
+              # do around
+              last_block = ->(parameter) { instance_eval { super(*parameter.args, &block) } }
               if annotation_map[:around_procs].present?
-                chain = annotation_map[:around_procs].reverse.inject(original) do |block_chain, blk|
-                  ->(*params) { instance_exec(block_chain, *params, &blk) }
+                 last_block = annotation_map[:around_procs].reverse.inject(last_block) do |block_chain, blk|
+                  ->(parameter) do 
+                    instance_exec(
+                      Parameter.new(original: block_chain, args: parameter.args, method_name: parameter.method_name),
+                      &blk
+                    )
+                  end
                 end
-                return_value = instance_exec(*args, &chain)
-              else
-                return_value = original.call(*args)
               end
-              annotation_map[:after_procs].try(:each) { |blk| instance_exec(*args, &blk) }
+              return_value = last_block.call(param)
+
+              # do after
+              annotation_map[:after_procs].try(:each) { |blk| instance_exec(param, &blk) }
               return_value
             end
 

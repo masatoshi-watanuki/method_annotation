@@ -6,9 +6,11 @@ module MethodAnnotation
 
   autoload :Base
   autoload :Enable
+  autoload :Parameter
 
   eager_autoload do
     autoload :Cache
+    autoload :Trace
   end
 end
 
