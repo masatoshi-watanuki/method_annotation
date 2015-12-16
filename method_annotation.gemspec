@@ -26,7 +26,7 @@ Note translation function can also be added simply tagged to only cross-processi
 
   spec.add_development_dependency "bundler", "~> 1.9"
   spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "rspec"
+  spec.add_development_dependency "rspec", "~> 3.4.0"
 
   # add
   spec.add_dependency "activesupport", "~> 4.2.3"

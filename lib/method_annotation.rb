@@ -6,4 +6,14 @@ module MethodAnnotation
 
   autoload :Base
   autoload :Enable
+
+  eager_autoload do
+    autoload :Cache
+  end
+end
+
+MethodAnnotation.eager_load!
+
+# Deprecated. Removed in version 0.3
+module Annotations
 end

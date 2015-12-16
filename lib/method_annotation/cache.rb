@@ -1,6 +1,4 @@
-require 'method_annotation'
-
-module Annotations
+module MethodAnnotation
   class Cache < MethodAnnotation::Base
     self.annotation_name = 'cache'
     self.describe = 'It is cached after the second time the execution result of the method is returned from the cache'

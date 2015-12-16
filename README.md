@@ -129,12 +129,11 @@ About MethodAnnotation
       => bar
       => after
 
-- Annotations::Cache
+- MethodAnnotation::Cache
 
   It is cached after the second time the execution result of the method is returned from the cache
 
       require 'method_annotation'
-      require 'annotations'
 
       class Foo
         include MethodAnnotation::Enable
