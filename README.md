@@ -156,6 +156,39 @@ About MethodAnnotation
       foo.bar
       => "return value"
 
+- MethodAnnotation::WillImplemented
+
+  It method is expected to be implemented.
+
+      require 'method_annotation'
+
+      class Foo
+        include MethodAnnotation::Enable
+
+        will_implemented
+        def bar
+        end
+      end
+
+      class Hoge
+
+        def bar
+          puts 'hoge'
+        end
+      end
+
+      class Hogehoge
+      end
+
+      Foo.new.bar
+      => NotImplementedError: Please implement Foo#bar
+
+      Hoge.new.bar
+      => "hoge"
+
+      Hogehoge.new.bar
+      => NotImplementedError: Please implement Hogehoge#bar
+
 - MethodAnnotation::Trace
 
   It is will trace the method. This is still a prototype.
