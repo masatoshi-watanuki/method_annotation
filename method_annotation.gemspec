@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
 MethodAnnotation You can define the annotation function method. 
 Note translation function can also be added simply tagged to only cross-processing from applications.
   EOS
-  spec.homepage      = "https://github.com/masatoshi-watanuki/gems/tree/master/method_annotation"
+  spec.homepage      = "https://github.com/masatoshi-watanuki/method_annotation"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = "exe"
