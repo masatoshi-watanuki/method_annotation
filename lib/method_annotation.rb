@@ -9,6 +9,7 @@ module MethodAnnotation
   autoload :Parameter
 
   eager_autoload do
+    autoload :Async
     autoload :Cache
     autoload :Trace
     autoload :WillImplemented
