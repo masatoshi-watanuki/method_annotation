@@ -131,6 +131,31 @@ About MethodAnnotation
       => bar
       => after
 
+- MethodAnnotation::Async
+
+  It will be performed asynchronously.
+
+      require 'method_annotation'
+
+      class Foo
+        include MethodAnnotation::Enable
+
+        def hoge
+          bar
+          puts 'hoge'
+        end
+
+        async
+        def bar
+          sleep 3
+          puts 'bar'
+        end
+      end
+
+      Foo.new.hoge
+      => hoge
+      => bar
+
 - MethodAnnotation::Cache
 
   It is cached after the second time the execution result of the method is returned from the cache.
@@ -155,6 +180,28 @@ About MethodAnnotation
       # The second time is not puts 'exec'
       foo.bar
       => "return value"
+
+- MethodAnnotation::Lazy
+
+  This method is lazy.
+  It will be executed at the timing when trying to use the return value.
+
+      require 'method_annotation'
+
+      class Foo
+        include MethodAnnotation::Enable
+
+        lazy
+        def bar
+          puts 'bar'
+          'return value'
+        end
+      end
+
+      value = Foo.new.bar
+      # It is run by the return value is used timing
+      value == 'hogehoge'
+      => bar
 
 - MethodAnnotation::WillImplemented
 

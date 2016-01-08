@@ -11,6 +11,7 @@ module MethodAnnotation
   eager_autoload do
     autoload :Async
     autoload :Cache
+    autoload :Lazy
     autoload :Trace
     autoload :WillImplemented
   end
