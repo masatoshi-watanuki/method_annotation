@@ -29,5 +29,5 @@ Note translation function can also be added simply tagged to only cross-processi
   spec.add_development_dependency "rspec", "~> 3.9.0"
 
   # add
-  spec.add_dependency "activesupport", "~> 6.0.2"
+  spec.add_dependency "activesupport", ">= 6.0.2", "< 7.1.0"
 end
